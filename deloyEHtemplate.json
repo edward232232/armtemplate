@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2021-11-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
       "eventHubNamespaceName": {
@@ -19,7 +19,10 @@
       },
       "eventHubSASToken": {
         "type": "string"
-      }
+      },
+      "location": {
+        "type": "String"
+    }
     },
     "variables": {},
     "resources": [
@@ -27,7 +30,7 @@
         "type": "Microsoft.EventHub/namespaces",
         "apiVersion": "2017-04-01",
         "name": "[parameters('eventHubNamespaceName')]",
-        "location": "[resourceGroup().location]",
+        "location": "[parameters(location')]",
         "sku": {
           "name": "Standard",
           "tier": "Standard"
@@ -59,4 +62,3 @@
       }
     }
   }
-  
