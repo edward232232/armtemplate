@@ -1,0 +1,62 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "eventHubNamespaceName": {
+        "type": "string"
+      },
+      "eventHubName": {
+        "type": "string"
+      },
+      "eventHubPartitionCount": {
+        "type": "int"
+      },
+      "eventHubThroughputUnits": {
+        "type": "int"
+      },
+      "eventHubConnectionString": {
+        "type": "string"
+      },
+      "eventHubSASToken": {
+        "type": "string"
+      }
+    },
+    "variables": {},
+    "resources": [
+      {
+        "type": "Microsoft.EventHub/namespaces",
+        "apiVersion": "2017-04-01",
+        "name": "[parameters('eventHubNamespaceName')]",
+        "location": "[resourceGroup().location]",
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard"
+        },
+        "properties": {}
+      },
+      {
+        "type": "Microsoft.EventHub/namespaces/eventhubs",
+        "apiVersion": "2017-04-01",
+        "name": "[concat(parameters('eventHubNamespaceName'), '/', parameters('eventHubName'))]",
+        "dependsOn": [
+          "[resourceId('Microsoft.EventHub/namespaces', parameters('eventHubNamespaceName'))]"
+        ],
+        "properties": {
+          "partitionCount": "[parameters('eventHubPartitionCount')]",
+          "messageRetentionInDays": "7",
+          "status": "Active"
+        }
+      }
+    ],
+    "outputs": {
+      "eventHubConnectionString": {
+        "type": "string",
+        "value": "[parameters('eventHubConnectionString')]"
+      },
+      "eventHubSASToken": {
+        "type": "string",
+        "value": "[parameters('eventHubSASToken')]"
+      }
+    }
+  }
+  
