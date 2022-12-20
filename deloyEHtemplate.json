@@ -11,9 +11,6 @@
       "eventHubPartitionCount": {
         "type": "int"
       },
-      "eventHubThroughputUnits": {
-        "type": "int"
-      },
       "eventHubConnectionString": {
         "type": "string"
       },
